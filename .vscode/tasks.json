@@ -97,6 +97,15 @@
 				"scripts/republish-pages.mjs"
 			],
 			"isBackground": false
+		},
+		{
+			"label": "Retry GitHub Pages deployment",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/trigger-pages-deploy.mjs"
+			],
+			"isBackground": false
 		}
 	]
 }
