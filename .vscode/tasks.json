@@ -1,0 +1,84 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Vellora",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"npm run build"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Iniciar Vellora",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"npm run dev -- --host 0.0.0.0"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Reiniciar Vellora",
+			"type": "shell",
+			"command": "powershell.exe",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"$listener = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue; if ($listener) { $processId = $listener[0].OwningProcess; $process = Get-CimInstance Win32_Process -Filter ('ProcessId=' + $processId); if ($process.CommandLine -notmatch 'Vellora\\\\Arquivos.*vite|vite.*Vellora\\\\Arquivos') { throw 'A porta 5173 está sendo usada por outro aplicativo; não foi encerrado.' }; Stop-Process -Id $processId -Force }; Set-Location 'C:\\Vellora\\Arquivos'; npm.cmd run dev -- --host 0.0.0.0 --port 5173"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Iniciar Vellora com Supabase",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"npm.cmd run dev -- --host 0.0.0.0 --port 5174"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verificar conexão Supabase (sem revelar chaves)",
+			"type": "shell",
+			"command": "powershell.exe",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"$lines = Get-Content -LiteralPath '.env'; $urlLine = $lines | Where-Object { $_ -match '^\\s*VITE_SUPABASE_URL=' } | Select-Object -First 1; $keyLine = $lines | Where-Object { $_ -match '^\\s*VITE_SUPABASE_ANON_KEY=' } | Select-Object -First 1; if (-not $urlLine -or -not $keyLine) { Write-Output 'CONFIG: missing'; exit 2 }; $url = ($urlLine -replace '^\\s*VITE_SUPABASE_URL=', '').Trim().Trim('\"').Trim(\"'\"); $key = ($keyLine -replace '^\\s*VITE_SUPABASE_ANON_KEY=', '').Trim().Trim('\"').Trim(\"'\"); if (-not $url.StartsWith('https://') -or -not $key) { Write-Output 'CONFIG: invalid'; exit 2 }; try { $response = Invoke-WebRequest -Uri ($url.TrimEnd('/') + '/auth/v1/health') -TimeoutSec 15 -UseBasicParsing; Write-Output ('CONFIG: present; AUTH_HEALTH: ' + [int]$response.StatusCode) } catch { if ($_.Exception.Response) { Write-Output ('CONFIG: present; AUTH_HEALTH: ' + [int]$_.Exception.Response.StatusCode) } else { Write-Output 'CONFIG: present; AUTH_HEALTH: unreachable' } }"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Testar conexão Supabase",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"npm.cmd run check:supabase"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Confirmar categorias Supabase",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"npm.cmd run check:supabase"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}

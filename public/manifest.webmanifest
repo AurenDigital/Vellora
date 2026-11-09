@@ -1,0 +1,17 @@
+{
+  "name": "Vellora — Beleza & bem-estar",
+  "short_name": "Vellora",
+  "description": "Encontre e agende serviços de beleza perto de você.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f6",
+  "theme_color": "#fbf8f6",
+  "icons": [
+    {
+      "src": "/vellora-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
