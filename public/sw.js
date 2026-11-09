@@ -1,9 +1,15 @@
-const CACHE_NAME = "vellora-v2";
+const CACHE_NAME = "vellora-v3";
+const APP_BASE = new URL("./", self.registration.scope);
+const APP_ENTRY = APP_BASE.href;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(["/", "/manifest.webmanifest", "/vellora-icon.svg"]))
+      .then((cache) => cache.addAll([
+        APP_ENTRY,
+        new URL("manifest.webmanifest", APP_BASE).href,
+        new URL("vellora-icon.svg", APP_BASE).href,
+      ]))
       .then(() => self.skipWaiting()),
   );
 });
@@ -25,7 +31,7 @@ self.addEventListener("fetch", (event) => {
       const cached = await caches.match(event.request);
       if (cached) return cached;
       if (event.request.mode === "navigate") {
-        const appShell = await caches.match("/");
+        const appShell = await caches.match(APP_ENTRY);
         if (appShell) return appShell;
       }
       return Response.error();

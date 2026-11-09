@@ -2415,6 +2415,7 @@ if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
       .then((keys) => Promise.all(keys.filter((key) => key.startsWith("vellora-")).map((key) => caches.delete(key))))
       .catch((error) => console.error("Falha ao limpar o cache PWA durante o desenvolvimento:", error));
   } else {
-    navigator.serviceWorker.register("/sw.js").catch((error) => console.error("Falha ao registrar o service worker:", error));
+    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`, { scope: import.meta.env.BASE_URL })
+      .catch((error) => console.error("Falha ao registrar o service worker:", error));
   }
 }

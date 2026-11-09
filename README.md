@@ -36,4 +36,4 @@ Para conceder acesso administrativo inicial, altere manualmente o perfil autoriz
 
 ## Produção
 
-Execute `npm run build` para gerar a versão estática em `dist/` e publique-a em um host compatível com aplicações Vite. Configure as mesmas variáveis de ambiente de build e HTTPS para instalação PWA e service worker.
+Execute `npm run build` para gerar a versão estática em `dist/` e publique-a em um host compatível com aplicações Vite. Para o GitHub Pages deste repositório, o workflow `.github/workflows/deploy-pages.yml` compila e publica automaticamente na branch `main`, usando o caminho `/Vellora/`. Em **Settings → Pages**, selecione **GitHub Actions** como origem de publicação. Configure as mesmas variáveis de ambiente de build e HTTPS para instalação PWA e service worker.
