@@ -88,6 +88,15 @@
 				"scripts/republish-pages.mjs"
 			],
 			"isBackground": false
+		},
+		{
+			"label": "Enable Vellora GitHub Pages",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/republish-pages.mjs"
+			],
+			"isBackground": false
 		}
 	]
 }
