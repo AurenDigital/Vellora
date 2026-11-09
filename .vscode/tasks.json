@@ -79,6 +79,15 @@
 			],
 			"isBackground": false,
 			"problemMatcher": []
+		},
+		{
+			"label": "Republish Vellora GitHub Pages",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"scripts/republish-pages.mjs"
+			],
+			"isBackground": false
 		}
 	]
 }
